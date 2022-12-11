@@ -6,9 +6,161 @@
         "version": "1.0.0"
     },
     "servers": [
-        "http://localhost:4000"
+        {"url":"http://localhost:4000"}
     ],
+    "apis": ["../AuthServer.js"],
     "tags": [
-        {}
-    ]
+        {
+            "name": "Security",
+            "description": "Security APIs"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "summary": "with this api you can login to your account",
+                "tags": [
+                    "Security"
+                ],
+                "description": "by logging into your account you achive your access/refresh token",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "you have logged in successfully!"
+                    },
+                    "403": {
+                        "description": "your username or password is wrong!"
+                    },
+                    "404": {
+                        "description": "There is a problem with database!"
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "summary": "Sign up in our product",
+                "tags": [
+                    "Security"
+                ],
+                "description": "for sign up you have to pass username and password to this api",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "your account has been created successfully!"
+                    },
+                    "404": {
+                        "description": "There is a problem for creating your account!"
+                    }
+                }
+            }
+        },
+        "/refresh": {
+            "post": {
+                "summary": "reset your access token",
+                "tags": [
+                    "Security"
+                ],
+                "description": "if your access token expiered you can reset it by sendeing your refreshtoken to this api and get your new access token in return.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successfully done. you can clame your accessToken!"
+                    },
+                    "404": {
+                        "description": "there is a problem with token verification."
+                    },
+                    "403": {
+                        "description": "The refresh token does not exists!"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "delete": {
+                "summary": "logout from your account",
+                "tags": [
+                    "Security"
+                ],
+                "description": "send your refresh token to this api to logout and delete your refreh token!",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "You have been logout successfully!"
+                    },
+                    "404": {
+                        "description": "Refresh token not found!"
+                    },
+                    "403": {
+                        "description": "There is a issue with database!"
+                    },
+                    "400": {
+                        "description": "Refresh token is not valid!"
+                    }
+                }
+            }
+        }
+    }
 }
