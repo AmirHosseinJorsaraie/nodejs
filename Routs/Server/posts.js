@@ -13,11 +13,15 @@ const posts = [
     }
 ]
 
-router.get('/', authenticateToken, (req, res) => {
+router.get('/', authenticateToken, CheckPermisions ,(req, res) => {
     res
         .status(200)
         .append('Access-Control-Allow-Origin', ['*'])
         .json(posts)
 })
+
+function CheckPermisions(req,res,next){
+    next()
+}
 
 module.exports = router
