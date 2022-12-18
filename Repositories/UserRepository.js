@@ -49,6 +49,14 @@ async function UserVerification(user) {
     
     
     let userRoles = await userForFindRoles.getRoles()
+     let userPermisions = [];
+    await userRoles.forEach(async function(role){
+        let permisions = await role.getPermisions()
+        await permisions.forEach(async (p) => {
+            userPermisions.push({ PermisionName: p.dataValues.PermisionName, id: p.dataValues.id })
+            console.log(userPermisions)
+        })
+    })
   
     if (!userVerified) return { status: 403, message: 'username or password is incorrect.' }
 
