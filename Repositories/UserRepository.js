@@ -49,14 +49,13 @@ async function UserVerification(user) {
     
     
     let userRoles = await userForFindRoles.getRoles()
-     let userPermisions = [];
-    await userRoles.forEach(async function(role){
-        let permisions = await role.getPermisions()
-        await permisions.forEach(async (p) => {
-            userPermisions.push({ PermisionName: p.dataValues.PermisionName, id: p.dataValues.id })
-            console.log(userPermisions)
-        })
-    })
+    let userPermisions = [];
+    for (var i = 0; i < userRoles.length; i++) {
+        let permisions = await userRoles[i].getPermisions()
+        for (var i = 0; i < permisions.length; i++) {
+            userPermisions.push({ PermisionName: permisions[i].dataValues.PermisionName, id: permisions[i].dataValues.id })
+        }
+    }
   
     if (!userVerified) return { status: 403, message: 'username or password is incorrect.' }
 
