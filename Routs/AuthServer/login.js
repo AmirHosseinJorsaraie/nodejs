@@ -3,8 +3,10 @@ const RefreshToken = require('../../Repositories/RegisterTokenRepository')
 const express = require('express')
 const JWT = require('jsonwebtoken')
 const router = express.Router()
+const IpRateLimit = require('../../Helpers/IpRateLimitter') 
 
-router.post('/', async (req, res) => {
+
+router.post('/', IpRateLimit ,async (req, res) => {
 
     const { username, password } = req.body
 
