@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const IpRateLimit = require('../../Helpers/IpRateLimitter') 
 const authenticateToken = require('../../Helpers/AuthenticateToken')
 //get Roles from database
 const RolesForThisRout = ['Admin', 'public']
@@ -16,7 +17,7 @@ const posts = [
     }
 ]
 
-router.get('/', authenticateToken, CheckRoles, CheckPermisions, (req, res) => {
+router.get('/', IpRateLimit , authenticateToken, CheckRoles, CheckPermisions, (req, res) => {
     res
         .status(200)
         .append('Access-Control-Allow-Origin', ['*'])
