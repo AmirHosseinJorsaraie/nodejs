@@ -1,8 +1,9 @@
 const RefreshToken = require('../../Repositories/RegisterTokenRepository')
+const IpRateLimit = require('../../Helpers/IpRateLimitter') 
 const express = require('express')
 const router = express.Router()
 
-router.delete('/', async (req,res)=>{
+router.delete('/', IpRateLimit, async (req, res) => {
     const {token} = req.body
     
     if(!token) return res.sendStatus(400)
