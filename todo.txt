@@ -1,7 +1,7 @@
 1- Events in node js ( https://www.w3schools.com/nodejs/nodejs_events.asp ) /done
 2- default route /done
-3- rate limitter ( based in  IP )
-4- create-drop / update => read from config 
+3- rate limitter ( based in  IP ) /done
+4- create-drop / update => read from config  /?
 5- redis / memcache cache layer ( replacement policy ) 
 6- move custom repository to ORM custom selector
 7- dynamic role permission
