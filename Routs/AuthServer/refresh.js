@@ -1,9 +1,10 @@
 const RefreshToken = require('../../Repositories/RegisterTokenRepository')
+const IpRateLimit = require('../../Helpers/IpRateLimitter')
 const JWT = require('jsonwebtoken')
 const express = require('express')
 const router = express.Router()
 
-router.post('/', async (req, res) => {
+router.post('/', IpRateLimit, async (req, res) => {
     const {token} = req.body
     const refToken = await RefreshToken.GetRefreshToken(token)
     if(!refToken) return res.status(403).json({message : 'The refresh token is not exists!'})
