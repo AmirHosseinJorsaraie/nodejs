@@ -1,4 +1,4 @@
-var rateLimiter = []
+const redisClient = require('./RedisClient')
 
 function IpRateLimit(req, res, next) {
 
