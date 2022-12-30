@@ -1,5 +1,5 @@
-const User = require('../../Repositories/UserRepository')
-const RefreshToken = require('../../Repositories/RegisterTokenRepository')
+const User = require('../../Models/User')
+const RefreshToken = require('../../Models/RegisterToken')
 const express = require('express')
 const JWT = require('jsonwebtoken')
 const router = express.Router()
