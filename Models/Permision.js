@@ -1,30 +1,31 @@
-const { sequelize, Model, DataTypes } = require('../Helpers/DatabaseConnection')
-const Role = require('./Role')
+const { Model } = require('../Helpers/DatabaseConnection')
 const redisClient = require('../Helpers/RedisClient')
-const RolePermision = require('./RolePermision')
 
 
 class Permision extends Model { }
 
 Permision.GetPermisions = async function () {
-    
+
     var checkExists = await redisClient.exists('Permisions')
+    console.log(checkExists)
     if(checkExists == 0){
         await this.UpdatePermisionList()
     }
-    
-    let permisions = await redisClient.lRange('Permisions',0,-1);
+
+    let permisions = await redisClient.SMEMBERS('Permisions');
     permisions.forEach((p,index)=>{
         permisions[index] = JSON.parse(p)
     })
 
     return permisions
+
 }
 
 Permision.UpdatePermisionList = async function () {
     let List = await Permision.findAll()
-    List.forEach((permision)=>{
-        redisClient.rPush('Permisions',JSON.stringify(permision))
+    await redisClient.del('Permisions')
+    List.forEach((permision) => {
+        redisClient.SADD('Permisions', JSON.stringify(permision))
     })
 }
 
@@ -39,26 +40,7 @@ Permision.AddPermision = async function (permision) {
     }
 }
 
-; (async () => {
-    await Permision.GetPermisions();
-})()
 
-Permision.init({
-    id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    PermisionName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
-}, { sequelize, modelName: 'Permision' })
 
-Permision.belongsToMany(Role, { through: RolePermision })
-Role.belongsToMany(Permision, { through: RolePermision })
-
-    
 
 module.exports = Permision
