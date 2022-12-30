@@ -1,4 +1,4 @@
-const RefreshToken = require('../../Repositories/RegisterTokenRepository')
+const RefreshToken = require('../../Models/RegisterToken')
 const IpRateLimit = require('../../Helpers/IpRateLimitter')
 const JWT = require('jsonwebtoken')
 const express = require('express')
