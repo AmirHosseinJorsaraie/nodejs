@@ -1,4 +1,4 @@
-const RoleRepo = require('../../../Repositories/RoleRepository')
+const RoleRepo = require('../../../Models/Role')
 const express = require('express')
 const router = express.Router()
 
