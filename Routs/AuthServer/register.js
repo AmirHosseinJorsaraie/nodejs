@@ -1,4 +1,4 @@
-const User = require('../../Repositories/UserRepository')
+const User = require('../../Models/User')
 const IpRateLimit = require('../../Helpers/IpRateLimitter') 
 const express = require('express')
 const router = express.Router()
