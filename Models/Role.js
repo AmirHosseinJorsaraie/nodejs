@@ -1,8 +1,6 @@
-const { sequelize, Model, DataTypes } = require('../Helpers/DatabaseConnection')
+const { Model } = require('../Helpers/DatabaseConnection')
 const redisClient = require('../Helpers/RedisClient')
 const PermisionRepo = require('./Permision')
-const User = require('./User')
-const UserRole = require('./UserRole')
 
 class Role extends Model { }
 
@@ -12,7 +10,7 @@ Role.GetRoleList = async function () {
         await this.UpdateRoleList()
     }
 
-    let roles = await redisClient.lRange('Roles', 0, -1);
+    let roles = await redisClient.SMEMBERS('Roles', 0, -1);
     roles.forEach((r, index) => {
         roles[index] = JSON.parse(r)
     })
@@ -22,49 +20,35 @@ Role.GetRoleList = async function () {
 
 Role.UpdateRoleList = async function () {
     let List = await Role.findAll()
+    await redisClient.del('Roles')
     List.forEach((R) => {
-        redisClient.rPush('Roles', JSON.stringify(R))
+        redisClient.SADD('Roles', JSON.stringify(R))
     })
 }
 
 Role.AddRole = async function (role) {
     try {
         var permisionList = await PermisionRepo.GetPermisions()
+        console.log(permisionList)
         var rolePermisions = []
         role.RolePermisions.forEach((rp) => {
             permisionList.forEach((p) => {
-                if (p.dataValues.id == rp) {
-                    rolePermisions.push(p)
+                if (p.id == rp) {
+                    rolePermisions.push(p.id)
                 }
             })
         })
-        console.log('im here')
+
         const Createdrole = await Role.create({ RoleName: role.RoleName })
         await Createdrole.addPermisions(rolePermisions)
         await this.UpdateRoleList()
         return 'Role Added Successfully'
     }
     catch (err) {
-        return err
+        console.log(err)
     }
 }
 
-Role.init({
-    id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    RoleName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    }
-}, { sequelize, modelName: 'Role' })
 
-Role.belongsToMany(User, { through: UserRole })
-User.belongsToMany(Role, { through: UserRole })
-
-//sequelize.sync()
 
 module.exports = Role
