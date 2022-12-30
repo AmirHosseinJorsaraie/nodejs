@@ -1,9 +1,7 @@
-const User = require('./User')
+const {Model} = require('../Helpers/DatabaseConnection')
 const redisClient = require('../Helpers/RedisClient')
-const { kMaxLength } = require('buffer')
-const { sequelize, Model, DataTypes } = require('../Helpers/DatabaseConnection')
 
-class RegisterToken extends Model { }
+class RegisterToken extends Model{}
 
 RegisterToken.GetRefreshTokens = async function () {
     var checkExists = await redisClient.exists('RefreshTokens')
@@ -11,7 +9,7 @@ RegisterToken.GetRefreshTokens = async function () {
         await this.UpdateRefreshTokenList()
     }
 
-    let refreshTokens = await redisClient.lRange('RefreshTokens', 0, -1);
+    let refreshTokens = await redisClient.SMEMBERS('RefreshTokens', 0, -1);
     refreshTokens.forEach((p, index) => {
         refreshTokens[index] = JSON.parse(p)
     })
@@ -21,8 +19,9 @@ RegisterToken.GetRefreshTokens = async function () {
 
 RegisterToken.UpdateRefreshTokenList = async function () {
     let List = await RegisterToken.findAll()
+    await redisClient.del('RefreshTokens')
     List.forEach((R) => {
-        redisClient.rPush('RefreshTokens', JSON.stringify(R))
+        redisClient.SADD('RefreshTokens', JSON.stringify(R))
     })
 }
 
@@ -87,31 +86,5 @@ RegisterToken.DeleteRefreshToken = async function (Rtoken) {
     this.UpdateRefreshTokenList()
 }
 
-RegisterToken.init({
-    id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    token: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
-}, { sequelize, modelName: 'RegisterToken', freezeTableName: true })
-
-RegisterToken.belongsTo(User)
-
-    ; (async () => {
-        await RegisterToken.GetRefreshTokens();
-    })()
-
-async function CreateTable() {
-    await RegisterToken.sync()
-}
-
-async function DropTable() {
-    await RegisterToken.drop()
-}
 
 module.exports = RegisterToken
