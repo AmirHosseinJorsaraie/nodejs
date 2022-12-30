@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('./Helpers/DbConfigModels') //for configuration the sequelize models
 const express = require('express')
 const eventEmitter = require('./Helpers/GetEvents')
 const loginRout = require('./Routs/AuthServer/login')
