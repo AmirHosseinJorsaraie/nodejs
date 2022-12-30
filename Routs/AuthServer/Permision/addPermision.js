@@ -1,4 +1,4 @@
-const PermisionRepo = require('../../../Repositories/PermisionRepository')
+const PermisionRepo = require('../../../Models/Permision')
 const express = require('express')
 const router = express.Router()
 
