@@ -63,7 +63,7 @@ RegisterToken.init({
         autoIncrement: true
     },
     token: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1224),
         allowNull: false
     }
 }, { sequelize, modelName: 'RegisterToken', freezeTableName: true })
@@ -114,7 +114,7 @@ Role.belongsToMany(Permision, { through: RolePermision })
         await sequelize.sync()
         var IsEmpty = await CheckEmpty()
         if (IsEmpty)
-            // await config()
+            await config()
         await Permision.GetPermisions()
         await RegisterToken.GetRefreshTokens()
         await Role.GetRoleList()
@@ -125,28 +125,20 @@ Role.belongsToMany(Permision, { through: RolePermision })
 
 async function config() {
 
-    // for()
-   
-   
-    // addPermisions()
-    // addRoles()
-    // addUsers()
+    for (var i = 0; i < configuration.Permisions.length; i++) {
+        await Permision.AddPermision(configuration.Permisions[i])
+    }
 
-    // function addUsers() {
-    //     configuration.Users.forEach((user) => {
-    //         User.AddUser(user.username, user.password, user.Roles)
-    //     })
-    // }
-    // function addPermisions() {
-    //     configuration.Permisions.forEach((permision) => {
-    //         Permision.AddPermision(permision)
-    //     })
-    // }
-    // function addRoles() {
-    //     configuration.Roles.forEach((role) => {
-    //         Role.AddRole(role)
-    //     })
-    // }
+
+    for (var i = 0; i < configuration.Roles.length; i++) {
+        await Role.AddRole(configuration.Roles[i])
+    }
+
+
+    for (var i = 0; i < configuration.Users.length; i++) {
+        await User.AddUser(configuration.Users[i].username, configuration.Users[i].password, configuration.Users[i].Roles)
+    }
+
 }
 
 async function CheckEmpty() {
