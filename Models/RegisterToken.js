@@ -33,6 +33,7 @@ RegisterToken.AddRefreshToken = async function (token, userId) {
         return `Oppration successfully completed!`
 
     } catch (err) {
+        console.log(err)
         return err
     }
 }
@@ -41,7 +42,7 @@ RegisterToken.RefreshTokenExists = async function (userId) {
     var refreshTokenList = await this.GetRefreshTokens()
     let exists = false
     refreshTokenList.forEach((token) => {
-        if (token.dataValues.UserId == userId) {
+        if (token.UserId == userId) {
             exists = true
         }
     })
@@ -53,12 +54,12 @@ RegisterToken.GetRefreshTokenByUserId = async function (userId) {
     var refreshTokenList = await this.GetRefreshTokens()
     let refToken;
     refreshTokenList.forEach((token) => {
-        if (token.dataValues.UserId == userId) {
+        if (token.UserId == userId) {
             refToken = token
         }
     })
     if (!refToken) return undefined
-    return refToken.dataValues.token
+    return refToken.token
 }
 
 
@@ -66,12 +67,12 @@ RegisterToken.GetRefreshToken = async function (Rtoken) {
     var refreshTokenList = await this.GetRefreshTokens()
     let refToken;
     refreshTokenList.forEach((token) => {
-        if (token.dataValues.token == Rtoken) {
+        if (token.token == Rtoken) {
             refToken = token
         }
     })
     if (!refToken) return undefined
-    return refToken.dataValues.token
+    return refToken.token
 
 }
 
