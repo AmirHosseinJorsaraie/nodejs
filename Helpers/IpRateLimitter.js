@@ -1,11 +1,11 @@
 import redisClient from './RedisClient.js'
 
 async function IpRateLimit(req, res, next) {
-    let Ip = await redisClient.get(req.socket.remoteAddress)
-    
+    let Ip = await redisClient.get(req.socket.remoteAddress + req.baseUrl)
+
     if (!Ip) {
         let currentIp = { tryCunts: 1 }
-        await redisClient.setEx(req.socket.remoteAddress, process.env.IP_EXPIRE_TIME, JSON.stringify(currentIp))
+        await redisClient.setEx(req.socket.remoteAddress + req.baseUrl, process.env.IP_EXPIRE_TIME, JSON.stringify(currentIp))
         return next()
     }
 
@@ -17,8 +17,8 @@ async function IpRateLimit(req, res, next) {
 
     ip.tryCunts = ip.tryCunts + 1
 
-    await redisClient.del(req.socket.remoteAddress)
-    await redisClient.setEx(req.socket.remoteAddress, process.env.IP_EXPIRE_TIME, JSON.stringify(ip))
+    await redisClient.del(req.socket.remoteAddress + req.baseUrl)
+    await redisClient.setEx(req.socket.remoteAddress + req.baseUrl, process.env.IP_EXPIRE_TIME, JSON.stringify(ip))
     next()
 
 }
