@@ -1,11 +1,29 @@
 import { sequelize, DataTypes } from './DatabaseConnection.js'
 import Permision from '../Models/Permision.js'
+import Post from '../Models/Post.js'
 import Role from '../Models/Role.js'
 import User from '../Models/User.js'
 import RegisterToken from '../Models/RegisterToken.js'
 import UserRole from '../Models/UserRole.js'
 import RolePermision from '../Models/RolePermision.js'
 import configuration from '../configuration.js'
+
+Post.init({
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    content: {
+        type: DataTypes.STRING(2000),
+        allowNull: true
+    }
+}, { sequelize, modelName: 'Post' })
 
 User.init({
     id: {
@@ -23,6 +41,7 @@ User.init({
         allowNull: false,
     }
 }, { sequelize, modelName: 'User' })
+
 
 Role.init({
     id: {
@@ -54,6 +73,7 @@ UserRole.init({
         }
     }
 }, { sequelize, modelName: 'UserRole' })
+
 
 RegisterToken.init({
     id: {
@@ -101,6 +121,7 @@ RolePermision.init({
     }
 }, { sequelize, modelName: 'RolePermision' })
 
+
 Role.belongsToMany(User, { through: UserRole })
 User.belongsToMany(Role, { through: UserRole })
 
@@ -139,6 +160,13 @@ async function config() {
         await User.AddUser(configuration.Users[i].username, configuration.Users[i].password, configuration.Users[i].Roles)
     }
 
+    for (var i = 0; i < 31; i++) {
+        let post = {
+            title: 'Post' + (i + 1),
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        }
+        await Post.AddPost(post)
+    }
 }
 
 async function CheckEmpty() {
