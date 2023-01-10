@@ -1,10 +1,13 @@
 import express from 'express'
 import Post from '../../Models/Post.js'
+import RoutBlockMiddelware from '../../Helpers/RoutBlockMiddleware.js'
+import IpRateLimit from '../../Helpers/IpRateLimitter.js'
+
 const router = express.Router()
 
 const posts = await Post.GetPosts()
 
-router.get('/', (req, res) => {
+router.get('/', IpRateLimit, RoutBlockMiddelware, (req, res) => {
 
     let pageNumber = parseInt(req.query.pageNumber) || 1
     let limit = parseInt(req.query.limit) || 12

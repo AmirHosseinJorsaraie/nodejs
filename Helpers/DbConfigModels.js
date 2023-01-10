@@ -140,6 +140,7 @@ Role.belongsToMany(Permision, { through: RolePermision })
         await RegisterToken.GetRefreshTokens()
         await Role.GetRoleList()
         await User.GetUsers()
+        await Post.GetPosts()
     })()
 
 

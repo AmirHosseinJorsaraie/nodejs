@@ -5,9 +5,9 @@ class Post extends Model { }
 
 Post.GetPosts = async function () {
     let exists = await redisClient.exists('Posts')
-
-    if (!exists) {
-        await this.UpdateRoleList()
+  
+    if (exists == 0) {
+        await this.UpdatePostList()
     }
 
     let posts = await redisClient.SMEMBERS('Posts', 0, -1)
@@ -18,8 +18,7 @@ Post.GetPosts = async function () {
     return posts
 }
 
-Post.UpdateRoleList = async function () {
-
+Post.UpdatePostList = async function () {
     let list = await Post.findAll()
     await redisClient.del('Posts')
 
@@ -30,7 +29,7 @@ Post.UpdateRoleList = async function () {
 
 Post.AddPost = async function (post) {
     await Post.create({ title: post.title, content: post.content})
-    await this.UpdateRoleList()
+    await this.UpdatePostList()
 }
 
 export default Post
