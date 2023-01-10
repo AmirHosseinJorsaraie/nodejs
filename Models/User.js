@@ -43,7 +43,6 @@ User.AddUser = async function (username, password, roles) {
             })
         })
         var user = await User.create({ username: username, password: password })
-        console.log(userRoles)
         await user.addRoles(userRoles)
         await this.UpdateUserList()
         return `Oppration successfully completed!`
