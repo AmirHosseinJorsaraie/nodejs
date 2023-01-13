@@ -37,17 +37,6 @@ if(cluster.isPrimary) {
 
 } else {
     const app = express()
-
-    // (async ()=>{
-    //     await _user.AddUser('testUser','@134')
-    // })();
-
-
-    // _user.GetUsers().then((result)=> {
-    //     result.forEach((u)=>{
-    //         console.log(u.dataValues)
-    //     })
-    // })
     app.use(express.json())
     app.use('/login', loginRout)
     app.use('/register', registerRout)
