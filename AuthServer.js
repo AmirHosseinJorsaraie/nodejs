@@ -7,13 +7,8 @@ import express from 'express'
 import eventEmitter from './Helpers/GetEvents.js';
 import swaggerDocument from './swagger/AuthServerSwagger.json' assert { type: "json" };
 import swagger from 'swagger-ui-express';
-import loginRout from './Routs/AuthServer/login.js';
-import registerRout from './Routs/AuthServer/register.js';
-import refreshRout from './Routs/AuthServer/refresh.js';
-import logoutRout from './Routs/AuthServer/logout.js';
-import addPermision from './Routs/AuthServer/Permision/addPermision.js';
-import addRole from './Routs/AuthServer/Role/addRole.js';
-import posts from './Routs/AuthServer/ServerProxyRouts/posts.js';
+import Routes from "./Constants/AuthServer/routs.js"
+
 
 
 if(cluster.isPrimary) {
@@ -38,13 +33,9 @@ if(cluster.isPrimary) {
 } else {
     const app = express()
     app.use(express.json())
-    app.use('/login', loginRout)
-    app.use('/register', registerRout)
-    app.use('/refresh', refreshRout)
-    app.use('/logout', logoutRout)
-    app.use('/addPermision', addPermision)
-    app.use('/addRole', addRole)
-    app.use('/posts', posts)
+    Routes.forEach((r)=>{
+        app.use(r.route,r.middlewares,r.router)
+    })
     app.use("/api-doc", swagger.serve, swagger.setup(swaggerDocument))
     app.listen(process.env.PORT, () => eventEmitter.emit('server.start', process.env.PORT))
 }

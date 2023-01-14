@@ -1,7 +1,7 @@
 import express from 'express'
 import Post from '../../Models/Post.js'
-import RoutBlockMiddelware from '../../Helpers/RoutBlockMiddleware.js'
-import IpRateLimit from '../../Helpers/IpRateLimitter.js'
+import RoutBlockMiddelware from '../../Middlewares/RoutBlockMiddleware.js'
+import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 
 const router = express.Router()
 

@@ -1,5 +1,5 @@
 import User from '../../Models/User.js'
-import IpRateLimit from '../../Helpers/IpRateLimitter.js'
+import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 import express from 'express'
 const router = express.Router()
 

@@ -1,5 +1,5 @@
 import RefreshToken from '../../Models/RegisterToken.js'
-import IpRateLimit from '../../Helpers/IpRateLimitter.js'
+import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 import JWT from 'jsonwebtoken'
 import express from 'express'
 

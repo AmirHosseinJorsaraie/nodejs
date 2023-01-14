@@ -2,13 +2,12 @@ import User from '../../Models/User.js'
 import RefreshToken from '../../Models/RegisterToken.js'
 import express from 'express'
 import JWT from 'jsonwebtoken'
-import IpRateLimit from '../../Helpers/IpRateLimitter.js'
 
 const router = express.Router()
 
 
 
-router.post('/', IpRateLimit, async (req, res) => {
+router.post('/', async (req, res) => {
 
     const { username, password } = req.body
 
