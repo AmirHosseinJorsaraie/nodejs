@@ -33,10 +33,9 @@ Permision.AddPermision = async function (permision) {
     try {
         await Permision.create({ PermisionName: permision.PermisionName })
         await this.UpdatePermisionList()
-        return 'Permision Added Successfully'
     }
     catch (err) {
-        return err
+        throw err
     }
 }
 

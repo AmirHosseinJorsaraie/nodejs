@@ -1,4 +1,5 @@
 import redisClient from '../Helpers/RedisClient.js'
+import { IP_BLOCKED } from '../Constants/responses.js'
 
 async function IpRateLimit(req, res, next) {
 
@@ -13,7 +14,7 @@ async function IpRateLimit(req, res, next) {
     let ip = JSON.parse(Ip)
 
     if (ip.tryCunts >= process.env.IP_RATE_LIMIT) {
-        return res.json({ message: `you are blocked and you have to wait for ${process.env.IP_EXPIRE_TIME} sec` })
+        return res.status(IP_BLOCKED.status).json(IP_BLOCKED.message)
     }
 
     ip.tryCunts = ip.tryCunts + 1

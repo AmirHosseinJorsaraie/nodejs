@@ -1,8 +1,10 @@
+import { UNAUTHORIZED } from "../Constants/responses.js"
+
 function RoutBlockMiddelware(req, res, next) {
     if (req.headers.host == process.env.AUTH_SERVER_HOST)
         next()
     else {
-        res.sendStatus(401)
+        res.status(UNAUTHORIZED.status).json(UNAUTHORIZED.message)
     }
 }
 

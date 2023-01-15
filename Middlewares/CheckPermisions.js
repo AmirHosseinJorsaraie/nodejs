@@ -1,13 +1,14 @@
 import required_permisions from "../Constants/AuthServer/required-permisions-rout.js"
-
+import { SERVER_ERROR,INATHENTIC_PERMISION } from "../Constants/responses.js"
+import eventEmitter from "../Helpers/GetEvents.js"
 
 function CheckPermisions(req, res, next) {
     const routeName = req.baseUrl
     const PermisionsForThisRout = GetRequierdPermisions(routeName)
 
     if (!PermisionsForThisRout || PermisionsForThisRout.length == 0) {
-        console.log('there is no requierd permision for this route')
-        res.status(500).json({ message: 'server error' })
+        eventEmitter.emit('permision.undefined')
+        res.status(SERVER_ERROR.status).json(SERVER_ERROR.message)
     }
 
     var userPermisions = req.user.userPermisions
@@ -22,7 +23,7 @@ function CheckPermisions(req, res, next) {
     }
 
     if (veryfied) next()
-    else return res.status(402).json({ message: 'You dont have permision for this action' })
+    else return res.status(INATHENTIC_PERMISION.status).json(INATHENTIC_PERMISION.message)
 }
 
 function GetRequierdPermisions(routeName) {

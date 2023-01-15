@@ -1,12 +1,14 @@
 import required_roles from "../Constants/AuthServer/required-roles-rout.js"
+import { SERVER_ERROR,INATHENTIC_ROLE } from "../Constants/responses.js"
+import eventEmitter from "../Helpers/GetEvents.js"
 
 function CheckRoles(req, res, next) {
     const routeName = req.baseUrl
     const RolesForThisRout = GetRequierdRoles(routeName)
 
     if (!RolesForThisRout || RolesForThisRout.length == 0) {
-        console.log('there is no requierd role for this route')
-        res.status(500).json({ message: 'server error' })
+        eventEmitter.emit('role.undefined')
+        res.status(SERVER_ERROR.status).json(SERVER_ERROR.message)
     }
 
     var userRoles = req.user.userRoles
@@ -20,7 +22,7 @@ function CheckRoles(req, res, next) {
     }
 
     if (veryfied) next()
-    else return res.status(402).json({ message: 'Your role is not verified for this action' })
+    else return res.status(INATHENTIC_ROLE.status).json(INATHENTIC_ROLE.message)
 }
 
 

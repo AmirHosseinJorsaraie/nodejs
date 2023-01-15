@@ -6,7 +6,6 @@ import JWT from 'jsonwebtoken'
 const router = express.Router()
 
 
-
 router.post('/', async (req, res) => {
 
     const { username, password } = req.body

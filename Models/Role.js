@@ -41,10 +41,10 @@ Role.AddRole = async function (role) {
         const Createdrole = await Role.create({ RoleName: role.RoleName })
         await Createdrole.addPermisions(rolePermisions)
         await this.UpdateRoleList()
-        return 'Role Added Successfully'
+
     }
     catch (err) {
-        console.log(err)
+        throw err
     }
 }
 
