@@ -17,12 +17,13 @@ eventEmitter.on('role.undefined', () => {
     console.log('there is no requierd role for this route')
 })
 
-eventEmitter.on('error.routs.permision.add', (mssage) => {
-    console.log(`Error: ${mssage}. (error.routs.permision.add)`)
+eventEmitter.on('user.noRole', (username) => {
+    console.log(`user ${username} dont have any roles. please define Roles for the user`)
 })
 
-eventEmitter.on('error.routs.role.add', (mssage) => {
-    console.log(`Error: ${mssage}. (error.routs.role.add)`)
+eventEmitter.on('error', (mssage,location,method) => {
+    console.log("\x1b[31m",`Error: ${mssage}. (${location})(${method})`)
 })
+
 
 export default eventEmitter

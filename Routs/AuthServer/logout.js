@@ -1,27 +1,30 @@
 import RefreshToken from '../../Models/RegisterToken.js'
 import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
+import { SERVER_ERROR, LOGOUT_SUCCESSFULL, REFRESH_TOKEN_NOT_FOUND, BAD_REQUEST } from '../../Constants/responses.js'
 import express from 'express'
+import {fileURLToPath} from 'url';
+const __filename = fileURLToPath(import.meta.url) 
 const router = express.Router()
 
 router.delete('/', IpRateLimit, async (req, res) => {
-    const {token} = req.body
-    
-    if(!token) return res.sendStatus(400)
-    
-    const refToken = await RefreshToken.GetRefreshToken(token)
+   
+    try {
+        const { token } = req.body
 
-    if(!refToken) return res.status(404).json({message: 'refresh token not found!'})
+        if (!token) return res.status(BAD_REQUEST.status).json(BAD_REQUEST.message)
 
-    try{
+        const refToken = await RefreshToken.GetRefreshToken(token)
+
+        if (!refToken) return res.status(REFRESH_TOKEN_NOT_FOUND.status).json(REFRESH_TOKEN_NOT_FOUND.message)
+
         await RefreshToken.DeleteRefreshToken(refToken)
-        return res.status(200).json({message : 'You have been logout successfully!'})
+        return res.status(LOGOUT_SUCCESSFULL.status).json(LOGOUT_SUCCESSFULL.message)
     }
-    catch(err){
-        return res.status(403).json({message: err})
+    catch (err) {
+        if (err instanceof Exception) eventEmitter.emit('error', err.message, err.location, err.method)
+        else eventEmitter.emit('error', err, __filename, '/logout')
+        return res.status(SERVER_ERROR.status).json(SERVER_ERROR.message)
     }
-
-
-    
 })
 
 export default router
