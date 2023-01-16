@@ -5,10 +5,10 @@ import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 
 const router = express.Router()
 
-const posts = await Post.GetPosts()
 
-router.get('/', IpRateLimit, RoutBlockMiddelware, (req, res) => {
-
+router.get('/', IpRateLimit, RoutBlockMiddelware, async (req, res) => {
+    
+    const posts = await Post.GetPosts()
     let pageNumber = parseInt(req.query.pageNumber) || 1
     let limit = parseInt(req.query.limit) || 12
     let startIndex = pageNumber == 0 ? 0 : (pageNumber - 1) * limit

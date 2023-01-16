@@ -67,7 +67,7 @@ User.UserVerification = async function (user) {
 
     if (!userVerified) return { status: 403, message: 'username or password is incorrect.' }
 
-    if(userInfo.Roles.lenght == 0) return { status: 403, message: 'user dont have any Roles. please define Roles for the user' }
+    if(userInfo.Roles.lenght == 0) return { status: 403, message: 'user dont have any roles. please define Roles for the user' }
 
     let userRoles = []
     let userPermisions = []
