@@ -25,7 +25,7 @@ async function UpdateData(Model, CachName, findAllObject) {
     }
     catch (err) {
         if (err instanceof Exception) throw err
-        throw new Exception(err, __filename, RegisterToken.UpdateRefreshTokenList.name)
+        throw new Exception(err, __filename, RegisterToken.UpdateData.name)
     }
 
 }
