@@ -13,7 +13,7 @@ Role.GetRoleList = async function () {
     try {
         var checkExists = await redisClient.exists('Roles')
         if (checkExists == 0) {
-            await this.UpdateRoleList()
+            await UpdateData(Role,'Roles')
         }
 
         let roles = await redisClient.SMEMBERS('Roles', 0, -1);
@@ -30,21 +30,6 @@ Role.GetRoleList = async function () {
 
 }
 
-Role.UpdateRoleList = async function () {
-    try {
-        // let List = await Role.findAll()
-        // await redisClient.del('Roles')
-        // List.forEach((R) => {
-        //     redisClient.SADD('Roles', JSON.stringify(R))
-        // })
-        await UpdateData('Roles')
-    }
-    catch (err) {
-        if (err instanceof Exception) throw err
-        throw new Exception(err, __filename, Role.UpdateRoleList.name)
-    }
-}
-
 Role.AddRole = async function (role) {
     try {
         var permisionList = await PermisionRepo.GetPermisions()
@@ -59,7 +44,7 @@ Role.AddRole = async function (role) {
 
         const Createdrole = await Role.create({ RoleName: role.RoleName })
         await Createdrole.addPermisions(rolePermisions)
-        await this.UpdateRoleList()
+        await UpdateData(Role,'Roles')
 
     }
     catch (err) {

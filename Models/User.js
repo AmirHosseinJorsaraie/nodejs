@@ -13,7 +13,12 @@ User.GetUsers = async function () {
     try {
         var checkExists = await redisClient.exists('Users')
         if (checkExists == 0) {
-            await this.UpdateUserList()
+            await UpdateData(User,'Users',{
+                include: {
+                    model: Role,
+                    include: this.sequelize.models.Permision
+                }
+            })
         }
 
         let users = await redisClient.SMEMBERS('Users', 0, -1);
@@ -25,25 +30,6 @@ User.GetUsers = async function () {
     } catch (err) {
         if (err instanceof Exception) throw err
         throw new Exception(err, __filename, User.GetUsers.name)
-    }
-}
-
-User.UpdateUserList = async function () {
-    try {
-        // let List = await User.findAll({
-        //     include: {
-        //         model: Role,
-        //         include: this.sequelize.models.Permision
-        //     }
-        // })
-        // await redisClient.del('Users')
-        // List.forEach((R) => {
-        //     redisClient.SADD('Users', JSON.stringify(R))
-        // })
-        await UpdateData(User,'Users')
-    } catch (err) {
-        if (err instanceof Exception) throw err
-        throw new Exception(err, __filename, User.UpdateUserList.name)
     }
 }
 
@@ -60,7 +46,7 @@ User.AddUser = async function (username, password, roles) {
         })
         var user = await User.create({ username: username, password: password })
         await user.addRoles(userRoles)
-        await this.UpdateUserList()
+        await UpdateData(User,'Users')
  
     } catch (err) {
         if (err instanceof Exception) throw err
@@ -85,7 +71,7 @@ User.UserVerification = async function (user) {
 
         if (!userVerified) return { notVeryfied: true }
 
-        if (userInfo.Roles.lenght == 0) return { noRole: true }
+        if (userInfo.Roles.length == 0) return { noRole: true }
 
         let userRoles = []
         let userPermisions = []

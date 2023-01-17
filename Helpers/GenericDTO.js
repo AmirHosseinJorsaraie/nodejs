@@ -1,16 +1,24 @@
 import redisClient from "./RedisClient.js"
-import {fileURLToPath} from 'url';
+import { fileURLToPath } from 'url';
 import Exception from "../Models/Exception.js";
-const __filename = fileURLToPath(import.meta.url) 
+const __filename = fileURLToPath(import.meta.url)
 
-async function UpdateData(Model, CachName) {
+async function UpdateData(Model, CachName, findAllObject) {
 
     try {
+        let list = []
+        
         if (CachName == undefined || CachName == '') return
-        let list = await Model.findAll()
         
+        if (!findAllObject) {
+            list = await Model.findAll()
+        }
+        else {
+            list = await Model.findAll(findAllObject)
+        }
+
         await redisClient.del(CachName)
-        
+
         list.forEach((item) => {
             redisClient.SADD(CachName, JSON.stringify(item))
         });

@@ -13,7 +13,7 @@ Permision.GetPermisions = async function () {
         var checkExists = await redisClient.exists('Permisions')
         console.log(checkExists)
         if (checkExists == 0) {
-            await this.UpdatePermisionList()
+            await UpdateData(Permision,'Permisions')
         }
 
         let permisions = await redisClient.SMEMBERS('Permisions');
@@ -29,26 +29,10 @@ Permision.GetPermisions = async function () {
     }
 }
 
-Permision.UpdatePermisionList = async function () {
-    try{
-        // let List = await Permision.findAll()
-        // await redisClient.del('Permisions')
-        // List.forEach((permision) => {
-        //     redisClient.SADD('Permisions', JSON.stringify(permision))
-        // })
-        await UpdateData(Permision,'Permisions')
-    }
-    catch(err){
-        if(err instanceof Exception) throw err
-        throw new Exception(err,__filename,Permision.UpdatePermisionList.name)
-    }
-   
-}
-
 Permision.AddPermision = async function (permision) {
     try {
         await Permision.create({ PermisionName: permision.PermisionName })
-        await this.UpdatePermisionList()
+        await UpdateData(Permision,'Permisions')
     }
     catch (err) {
         if(err instanceof Exception) throw err

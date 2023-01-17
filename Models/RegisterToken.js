@@ -12,7 +12,7 @@ RegisterToken.GetRefreshTokens = async function () {
     try {
         var checkExists = await redisClient.exists('RefreshTokens')
         if (checkExists == 0) {
-            await this.UpdateRefreshTokenList()
+            await UpdateData(RegisterToken,'RefreshTokens')
         }
 
         let refreshTokens = await redisClient.SMEMBERS('RefreshTokens', 0, -1);
@@ -29,27 +29,11 @@ RegisterToken.GetRefreshTokens = async function () {
 
 }
 
-RegisterToken.UpdateRefreshTokenList = async function () {
-
-    try {
-        // let List = await RegisterToken.findAll()
-        // await redisClient.del('RefreshTokens')
-        // List.forEach((R) => {
-        //     redisClient.SADD('RefreshTokens', JSON.stringify(R))
-        // })
-        await UpdateData(RegisterToken,'RefreshTokens')
-    }
-    catch (err) {
-        if (err instanceof Exception) throw err
-        throw new Exception(err, __filename, RegisterToken.UpdateRefreshTokenList.name)
-    }
-}
-
 RegisterToken.AddRefreshToken = async function (token, userId) {
 
     try {
         await RegisterToken.create({ token: token, UserId: userId })
-        this.UpdateRefreshTokenList()
+        await UpdateData(RegisterToken,'RefreshTokens')
         
     } catch (err) {
         if (err instanceof Exception) throw err
@@ -121,7 +105,7 @@ RegisterToken.DeleteRefreshToken = async function (Rtoken) {
             }
         })
 
-        this.UpdateRefreshTokenList()
+        await UpdateData(RegisterToken,'RefreshTokens')
 
     } catch (err) {
         if(err instanceof Exception) throw err
