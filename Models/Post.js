@@ -31,8 +31,8 @@ Post.GetPosts = async function () {
 Post.UpdatePostList = async function () {
 
     try {
-        let list = await Post.findAll()
-        
+        let list = await Post.findAll({
+        })
         await redisClient.del('Posts')
 
         list.forEach((p) => {

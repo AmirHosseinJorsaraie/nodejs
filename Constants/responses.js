@@ -6,6 +6,7 @@ export const ADD_ROLE_SUCCESSFULL = Object.freeze({ status: 200, message: 'Role 
 export const ADD_PERMISION_SUCCESSFULL = Object.freeze({ status: 200, message: 'Permision added successfully.' })
 export const ADD_USER_SUCCESSFULL = Object.freeze({ status: 200, message: 'User added successfully.' })
 export const GET_POSTS_SUCCESSFULL = Object.freeze({status: 200, message: 'Posts delivred successfully.'})
+export const NO_POSTS = Object.freeze({status: 200, message: 'There is no post available.'})
 //failed responses
 export const SERVER_ERROR = Object.freeze({ status: 500, message: 'Something went wrong.' })
 export const USER_ERROR = Object.freeze({ status: 500, message: 'This user have problem. please contact support.'})
