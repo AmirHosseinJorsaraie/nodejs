@@ -2,6 +2,7 @@ import { Model } from '../Helpers/DatabaseConnection.js';
 import redisClient from '../Helpers/RedisClient.js';
 import Exception from './Exception.js';
 import {fileURLToPath} from 'url';
+import UpdateData from '../Helpers/GenericDTO.js';
 const __filename = fileURLToPath(import.meta.url) 
 
 class RegisterToken extends Model { }
@@ -31,11 +32,12 @@ RegisterToken.GetRefreshTokens = async function () {
 RegisterToken.UpdateRefreshTokenList = async function () {
 
     try {
-        let List = await RegisterToken.findAll()
-        await redisClient.del('RefreshTokens')
-        List.forEach((R) => {
-            redisClient.SADD('RefreshTokens', JSON.stringify(R))
-        })
+        // let List = await RegisterToken.findAll()
+        // await redisClient.del('RefreshTokens')
+        // List.forEach((R) => {
+        //     redisClient.SADD('RefreshTokens', JSON.stringify(R))
+        // })
+        await UpdateData(RegisterToken,'RefreshTokens')
     }
     catch (err) {
         if (err instanceof Exception) throw err

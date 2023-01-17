@@ -3,6 +3,7 @@ import redisClient from '../Helpers/RedisClient.js';
 import Exception from './Exception.js';
 import PermisionRepo from './Permision.js';
 import {fileURLToPath} from 'url';
+import UpdateData from '../Helpers/GenericDTO.js';
 const __filename = fileURLToPath(import.meta.url) 
 
 class Role extends Model { }
@@ -31,11 +32,12 @@ Role.GetRoleList = async function () {
 
 Role.UpdateRoleList = async function () {
     try {
-        let List = await Role.findAll()
-        await redisClient.del('Roles')
-        List.forEach((R) => {
-            redisClient.SADD('Roles', JSON.stringify(R))
-        })
+        // let List = await Role.findAll()
+        // await redisClient.del('Roles')
+        // List.forEach((R) => {
+        //     redisClient.SADD('Roles', JSON.stringify(R))
+        // })
+        await UpdateData('Roles')
     }
     catch (err) {
         if (err instanceof Exception) throw err

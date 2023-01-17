@@ -2,6 +2,7 @@ import { Model } from '../Helpers/DatabaseConnection.js';
 import redisClient from '../Helpers/RedisClient.js';
 import Exception from './Exception.js';
 import {fileURLToPath} from 'url';
+import UpdateData from '../Helpers/GenericDTO.js';
 const __filename = fileURLToPath(import.meta.url) 
 
 class Post extends Model { }
@@ -31,13 +32,14 @@ Post.GetPosts = async function () {
 Post.UpdatePostList = async function () {
 
     try {
-        let list = await Post.findAll({
-        })
-        await redisClient.del('Posts')
+        // let list = await Post.findAll({
+        // })
+        // await redisClient.del('Posts')
 
-        list.forEach((p) => {
-            redisClient.SADD('Posts', JSON.stringify(p))
-        })
+        // list.forEach((p) => {
+        //     redisClient.SADD('Posts', JSON.stringify(p))
+        // })
+        await UpdateData(Post,'Posts')
     }
     catch (err) {
         if(err instanceof Exception) throw err

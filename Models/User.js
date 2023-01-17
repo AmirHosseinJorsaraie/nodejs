@@ -3,6 +3,7 @@ import redisClient from '../Helpers/RedisClient.js';
 import Exception from './Exception.js';
 import Role from './Role.js';
 import {fileURLToPath} from 'url';
+import UpdateData from '../Helpers/GenericDTO.js';
 const __filename = fileURLToPath(import.meta.url) 
 
 class User extends Model { }
@@ -29,16 +30,17 @@ User.GetUsers = async function () {
 
 User.UpdateUserList = async function () {
     try {
-        let List = await User.findAll({
-            include: {
-                model: Role,
-                include: this.sequelize.models.Permision
-            }
-        })
-        await redisClient.del('Users')
-        List.forEach((R) => {
-            redisClient.SADD('Users', JSON.stringify(R))
-        })
+        // let List = await User.findAll({
+        //     include: {
+        //         model: Role,
+        //         include: this.sequelize.models.Permision
+        //     }
+        // })
+        // await redisClient.del('Users')
+        // List.forEach((R) => {
+        //     redisClient.SADD('Users', JSON.stringify(R))
+        // })
+        await UpdateData(User,'Users')
     } catch (err) {
         if (err instanceof Exception) throw err
         throw new Exception(err, __filename, User.UpdateUserList.name)
