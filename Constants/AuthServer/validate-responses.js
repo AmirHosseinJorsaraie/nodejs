@@ -1,0 +1,17 @@
+import { body } from "express-validator"
+
+export const ADD_PERMISION_VALIDATOR_NOT_NULL = Object.freeze({ body: 'permision', response: 'Name must have more than 3 characters. (key = permision)' })
+export const ADD_ROLE_VALIDATOR_NOT_NULL = Object.freeze({ body: 'role', response: 'You must define a role! please check the role value. (key = role)' })
+export const ADD_ROLE_VALIDATOR_NOT_NULL_PERMISIONS = Object.freeze({ body: 'permisions', response: 'Please define permision for this role. (key = permisions)' })
+export const LOGIN_VALIDATOR_NOT_NULL = Object.freeze({ body: 'username', response: 'You must enter your username. (key = username)' })
+export const LOGIN_VALIDATOR_IS_EMAIL = Object.freeze({ body: 'username', response: 'Username is not valid. Enter your email for username. (key = username)' })
+export const LOGIN_VALIDATOR_PASSWORD_NOT_NULL = Object.freeze({ body: 'password', response: 'Enter your password. (key = password)' })
+export const LOGOUT_VALIDATOR_NOT_NULL = Object.freeze({ body: 'token', response: 'Enter refresh token. (key = token)' })
+export const REFRESH_VALIDATOR_NOT_NULL = Object.freeze({ body: 'token', response: 'Enter refresh token. (key = token)' })
+export const REGISTER_VALIDATOR_USERNAME_NOT_NULL = Object.freeze({ body: 'username', response: 'Enter username. (key = username)' })
+export const REGISTER_VALIDATOR_USERNAME_CHECK_LENGTH = Object.freeze({ body: 'username', response: 'Username must have more than 3 and less than 10 characters. (key = username)' })
+export const REGISTER_VALIDATOR_USERNAME_IS_EMAIL = Object.freeze({ body: 'username', response: 'Username must be an email. (key = username)' })
+export const REGISTER_VALIDATOR_PASSWORD_NOT_NULL = Object.freeze({ body: 'password', response: 'Enter Password. (key = password)' })
+export const REGISTER_VALIDATOR_PASSWORD_CHECK_LENGTH = Object.freeze({body: 'password', response: 'Password must have more than 5 and less than 15 characters. (key = password)'})
+export const REGISTER_VALIDATOR_ROLES_NOT_NULL = Object.freeze({body: 'roles', response: 'Please Enter Roles. (key = roles)'})
+export const REGISTER_VALIDATOR_ROLES_NOT_ARRAY = Object.freeze({body: 'roles', response: 'Roles must be type of array. (key = roles)'})
