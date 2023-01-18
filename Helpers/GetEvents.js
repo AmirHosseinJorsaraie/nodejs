@@ -5,6 +5,18 @@ eventEmitter.on('server.start', (Port) => {
     console.log(`server is listening on port ${Port} ...`)
 })
 
+eventEmitter.on('server.numworkers',(numWorkers)=>{
+    console.log(`Master cluster setting up ${numWorkers} workers...`)
+})
+
+eventEmitter.on('server.online.workers',(processId)=>{
+    console.log(`Worker ${processId} is online`)
+})
+
+eventEmitter.on('server.dead.workers',(code,processId,signal)=>{
+    console.log('Worker ' + processId + ' died with code: ' + code + ', and signal: ' + signal)
+})
+
 eventEmitter.on('redis.connect', () => {
     console.log(`Redis has been connected...`)
 })

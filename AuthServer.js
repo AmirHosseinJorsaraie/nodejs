@@ -14,19 +14,18 @@ import Routes from "./Constants/AuthServer/routs.js"
 if (cluster.isPrimary) {
     var numWorkers = cpus().length;
 
-    console.log('Master cluster setting up ' + numWorkers + ' workers...');
+    eventEmitter.emit('server.numworkers', numWorkers)
 
     for (var i = 0; i < numWorkers; i++) {
-        cluster.fork();
+        cluster.fork()
     }
 
     cluster.on('online', function (worker) {
-        console.log('Worker ' + worker.process.pid + ' is online');
+        eventEmitter.emit('server.online.workers', worker.process.pid)
     });
 
     cluster.on('exit', function (worker, code, signal) {
-        console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
-        console.log('Starting a new worker');
+        eventEmitter.emit('server.dead.workers',(code,worker.process.pid,signal))
         cluster.fork();
     });
 

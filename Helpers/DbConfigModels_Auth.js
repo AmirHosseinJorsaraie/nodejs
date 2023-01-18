@@ -1,6 +1,5 @@
 import { sequelize, DataTypes } from './DatabaseConnection.js'
 import Permision from '../Models/Permision.js'
-import Post from '../Models/Post.js'
 import Role from '../Models/Role.js'
 import User from '../Models/User.js'
 import RegisterToken from '../Models/RegisterToken.js'
