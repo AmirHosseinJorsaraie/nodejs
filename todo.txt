@@ -4,12 +4,20 @@
 4- create-drop / update => read from config  /done
 5- redis / memcache cache layer ( replacement policy ) /done 
 6- move custom repository to ORM custom selector /done
-7- dynamic role permission -
+7- dynamic role permission /done
 8- nginx -
 9- sentry
 10- winston
 11- cluster /done
 12- micro service kardan auth va main /done
 13- npm package for my custom kit
+14- validation /done
+15- execption handling /done
+16- Constants /done
+17- Handle Routs /done
+18- fix eventEmiter /done 
+19- middlewares /done
+20- GET pagination /done
+21- Generic DTO /done
 
-- fix Error: TypeError: Cannot convert undefined or null to object. (C:\Users\Asus\Documents\GitHub\nodejs\Models\Post.js)()
+- fix Error: TypeError: Cannot convert undefined or null to object. (C:\Users\Asus\Documents\GitHub\nodejs\Models\Post.js)() /done

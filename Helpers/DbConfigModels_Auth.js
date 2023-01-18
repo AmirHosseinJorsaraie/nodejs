@@ -5,7 +5,7 @@ import User from '../Models/User.js'
 import RegisterToken from '../Models/RegisterToken.js'
 import UserRole from '../Models/UserRole.js'
 import RolePermision from '../Models/RolePermision.js'
-import configuration from '../configuration.js'
+import configuration from '../Constants/AuthServer/default-data.js'
 
 
 User.init({
@@ -129,18 +129,18 @@ Role.belongsToMany(Permision, { through: RolePermision })
 
 async function config() {
 
-    for (var i = 0; i < configuration.Permisions.length; i++) {
-        await Permision.AddPermision(configuration.Permisions[i])
+    for (var i = 0; i < configuration.PERMISIONS.length; i++) {
+        await Permision.AddPermision(configuration.PERMISIONS[i])
     }
 
 
-    for (var i = 0; i < configuration.Roles.length; i++) {
-        await Role.AddRole(configuration.Roles[i])
+    for (var i = 0; i < configuration.ROLES.length; i++) {
+        await Role.AddRole(configuration.ROLES[i])
     }
 
 
-    for (var i = 0; i < configuration.Users.length; i++) {
-        await User.AddUser(configuration.Users[i].username, configuration.Users[i].password, configuration.Users[i].Roles)
+    for (var i = 0; i < configuration.USERS.length; i++) {
+        await User.AddUser(configuration.USERS[i].username, configuration.USERS[i].password, configuration.USERS[i].Roles)
     }
 }
 
