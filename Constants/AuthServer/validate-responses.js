@@ -1,5 +1,3 @@
-import { body } from "express-validator"
-
 export const ADD_PERMISION_VALIDATOR_NOT_NULL = Object.freeze({ body: 'permision', response: 'Name must have more than 3 characters. (key = permision)' })
 export const ADD_ROLE_VALIDATOR_NOT_NULL = Object.freeze({ body: 'role', response: 'You must define a role! please check the role value. (key = role)' })
 export const ADD_ROLE_VALIDATOR_NOT_NULL_PERMISIONS = Object.freeze({ body: 'permisions', response: 'Please define permision for this role. (key = permisions)' })

@@ -9,41 +9,42 @@ import register from "../../Routs/AuthServer/register.js"
 import Add_Permision from "../../Routs/AuthServer/Permision/add.js"
 import Add_Role from "../../Routs/AuthServer/Role/add.js"
 import posts from "../../Routs/AuthServer/ServerProxyRouts/posts.js"
+import CheckValidation from "../../Middlewares/CheckValidation.js"
 import * as validators from "./validators.js"
 
 const LOGIN = Object.freeze({
     route: '/login',
-    middlewares: validators.LOGIN_VALIDATOR,
+    middlewares: [IpRateLimit, validators.LOGIN_VALIDATOR, CheckValidation],
     router: login
 })
 
 const LOGOUT = Object.freeze({
     route: '/logout',
-    middlewares: [IpRateLimit, validators.LOGOUT_VALIDATOR],
+    middlewares: [IpRateLimit, validators.LOGOUT_VALIDATOR, CheckValidation],
     router: logout
 })
 
 const REFRESH = Object.freeze({
     route: '/refresh',
-    middlewares: [IpRateLimit, validators.REFRESH_VALIDATOR],
+    middlewares: [IpRateLimit, validators.REFRESH_VALIDATOR, CheckValidation],
     router: refresh
 })
 
 const REGISTER = Object.freeze({
     route: '/register',
-    middlewares: [IpRateLimit, validators.REGISTER_VALIDATOR],
+    middlewares: [IpRateLimit, validators.REGISTER_VALIDATOR, CheckValidation],
     router: register
 })
 
 const ADD_PERMISION = Object.freeze({
     route: '/Permision',
-    middlewares: [IpRateLimit, validators.ADD_PERMISION_VALIDATOR],
+    middlewares: [IpRateLimit, validators.ADD_PERMISION_VALIDATOR, CheckValidation],
     router: Add_Permision
 })
 
 const ADD_ROLE = Object.freeze({
     route: '/Role',
-    middlewares: [IpRateLimit, validators.ADD_ROLE_VALIDATOR],
+    middlewares: [IpRateLimit, validators.ADD_ROLE_VALIDATOR, CheckValidation],
     router: Add_Role
 })
 
