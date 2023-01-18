@@ -7,7 +7,7 @@ export const LOGIN_VALIDATOR_PASSWORD_NOT_NULL = Object.freeze({ body: 'password
 export const LOGOUT_VALIDATOR_NOT_NULL = Object.freeze({ body: 'token', response: 'Enter refresh token. (key = token)' })
 export const REFRESH_VALIDATOR_NOT_NULL = Object.freeze({ body: 'token', response: 'Enter refresh token. (key = token)' })
 export const REGISTER_VALIDATOR_USERNAME_NOT_NULL = Object.freeze({ body: 'username', response: 'Enter username. (key = username)' })
-export const REGISTER_VALIDATOR_USERNAME_CHECK_LENGTH = Object.freeze({ body: 'username', response: 'Username must have more than 3 and less than 10 characters. (key = username)' })
+export const REGISTER_VALIDATOR_USERNAME_CHECK_LENGTH = Object.freeze({ body: 'username', response: 'Username must have more than 3 and less than 20 characters. (key = username)' })
 export const REGISTER_VALIDATOR_USERNAME_IS_EMAIL = Object.freeze({ body: 'username', response: 'Username must be an email. (key = username)' })
 export const REGISTER_VALIDATOR_PASSWORD_NOT_NULL = Object.freeze({ body: 'password', response: 'Enter Password. (key = password)' })
 export const REGISTER_VALIDATOR_PASSWORD_CHECK_LENGTH = Object.freeze({body: 'password', response: 'Password must have more than 5 and less than 15 characters. (key = password)'})

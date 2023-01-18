@@ -26,10 +26,9 @@ export const REFRESH_VALIDATOR = [
 
 export const REGISTER_VALIDATOR = [
     body(validator.REGISTER_VALIDATOR_USERNAME_NOT_NULL.body).not().isEmpty().withMessage(validator.REGISTER_VALIDATOR_USERNAME_NOT_NULL.response),
-    body(validator.REGISTER_VALIDATOR_USERNAME_IS_EMAIL.body).not().isEmail().withMessage(validator.REGISTER_VALIDATOR_USERNAME_IS_EMAIL.response),
-    body(validator.REGISTER_VALIDATOR_USERNAME_CHECK_LENGTH.body).not().isLength({ min: 3, max: 10 }).withMessage(validator.REGISTER_VALIDATOR_USERNAME_CHECK_LENGTH.response),
+    body(validator.REGISTER_VALIDATOR_USERNAME_IS_EMAIL.body).isEmail().withMessage(validator.REGISTER_VALIDATOR_USERNAME_IS_EMAIL.response),
+    body(validator.REGISTER_VALIDATOR_USERNAME_CHECK_LENGTH.body).isLength({ min: 3, max: 20 }).withMessage(validator.REGISTER_VALIDATOR_USERNAME_CHECK_LENGTH.response),
     body(validator.REGISTER_VALIDATOR_PASSWORD_NOT_NULL.body).not().isEmpty().withMessage(validator.REGISTER_VALIDATOR_PASSWORD_NOT_NULL),
-    body(validator.REGISTER_VALIDATOR_PASSWORD_CHECK_LENGTH.body).not().isLength({ min: 5, max: 15 }).withMessage(validator.REGISTER_VALIDATOR_PASSWORD_CHECK_LENGTH.response),
-    body(validator.REGISTER_VALIDATOR_ROLES_NOT_NULL.body).not().isEmpty().withMessage(validator.REGISTER_VALIDATOR_ROLES_NOT_NULL.response),
-    body(validator.REGISTER_VALIDATOR_ROLES_NOT_ARRAY.body).not().isArray().withMessage(validator.REGISTER_VALIDATOR_ROLES_NOT_ARRAY.response)
+    body(validator.REGISTER_VALIDATOR_PASSWORD_CHECK_LENGTH.body).isLength({ min: 5, max: 15 }).withMessage(validator.REGISTER_VALIDATOR_PASSWORD_CHECK_LENGTH.response),
+    body(validator.REGISTER_VALIDATOR_ROLES_NOT_NULL.body).not().isEmpty().withMessage(validator.REGISTER_VALIDATOR_ROLES_NOT_NULL.response)
 ]
