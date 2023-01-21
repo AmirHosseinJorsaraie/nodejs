@@ -1,8 +1,10 @@
+import IpRateLimit from "../../Middlewares/IpRateLimitter.js"
+import RoutBlockMiddelware from "../../Middlewares/RoutBlockMiddleware.js"
 import posts from "../../Routs/Server/posts.js"
 
 const POST = {
     route: '/posts',
-    middlewares: [],
+    middlewares: [ IpRateLimit, RoutBlockMiddelware],
     router: posts
 }
 

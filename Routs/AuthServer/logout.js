@@ -1,12 +1,11 @@
 import RefreshToken from '../../Models/RegisterToken.js'
-import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 import { SERVER_ERROR, LOGOUT_SUCCESSFULL, REFRESH_TOKEN_NOT_FOUND, BAD_REQUEST } from '../../Constants/responses.js'
 import express from 'express'
 import {fileURLToPath} from 'url';
 const __filename = fileURLToPath(import.meta.url) 
 const router = express.Router()
 
-router.delete('/', IpRateLimit, async (req, res) => {
+router.delete('/', async (req, res) => {
    
     try {
         const { token } = req.body

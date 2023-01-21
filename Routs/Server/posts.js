@@ -1,7 +1,5 @@
 import express from 'express'
 import Post from '../../Models/Post.js'
-import RoutBlockMiddelware from '../../Middlewares/RoutBlockMiddleware.js'
-import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 import {fileURLToPath} from 'url';
 import { GET_POSTS_SUCCESSFULL, ACCESS_CONTROL_ALLOW_ORIGIN, SERVER_ERROR, NO_POSTS } from '../../Constants/responses.js';
 import Exception from '../../Models/Exception.js';
@@ -11,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url)
 const router = express.Router()
 
 
-router.get('/', IpRateLimit, RoutBlockMiddelware, async (req, res) => {
+router.get('/', async (req, res) => {
     
     try{
         const posts = await Post.GetPosts()

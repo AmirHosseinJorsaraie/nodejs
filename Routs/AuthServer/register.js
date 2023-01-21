@@ -1,5 +1,4 @@
 import User from '../../Models/User.js'
-import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 import { ADD_USER_SUCCESSFULL, BAD_REQUEST, SERVER_ERROR } from '../../Constants/responses.js'
 import express from 'express'
 import eventEmitter from '../../Helpers/GetEvents.js'
@@ -9,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url)
 
 const router = express.Router()
 
-router.post('/', IpRateLimit, async (req, res) => {
+router.post('/', async (req, res) => {
     
     try{
         const { username, password, roles } = req.body
