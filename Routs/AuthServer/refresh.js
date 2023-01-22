@@ -1,5 +1,4 @@
 import RefreshToken from '../../Models/RegisterToken.js'
-import IpRateLimit from '../../Middlewares/IpRateLimitter.js'
 import { REFRESH_TOKEN_NOT_FOUND, AUTHORIZATION_HEADER, ACCESS_TOKEN_REFRESHED_SUCCESSFULL, SERVER_ERROR} from '../../Constants/responses.js'
 import JWT from 'jsonwebtoken'
 import express from 'express'
@@ -10,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url)
 
 const router = express.Router()
 
-router.post('/', IpRateLimit, async (req, res) => {
+router.post('/', async (req, res) => {
 
     try {
         const { token } = req.body
