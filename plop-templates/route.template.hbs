@@ -1,0 +1,23 @@
+import {{Title name}} from '../../Models/User.js'
+import { SERVER_ERROR } from '../../Constants/responses.js'
+import express from 'express'
+import eventEmitter from '../../Helpers/GetEvents.js'
+import Exception from '../../Models/Exception.js'
+import {fileURLToPath} from 'url';
+const __filename = fileURLToPath(import.meta.url) 
+
+const router = express.Router()
+
+router.post('/', async (req, res) => {
+    
+    try{
+        return res.status().json()
+    }
+    catch(err){
+        if (err instanceof Exception) eventEmitter.emit('error', err.message, err.location, err.method)
+        else eventEmitter.emit('error', err, __filename)
+        return res.status(SERVER_ERROR.status).json(SERVER_ERROR.message)
+    }
+})
+
+export default router
