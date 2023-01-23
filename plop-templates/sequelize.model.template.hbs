@@ -1,0 +1,42 @@
+import { Model } from '../Helpers/DatabaseConnection.js';
+import redisClient from '../Helpers/RedisClient.js';
+import Exception from './Exception.js';
+import Role from './Role.js';
+import {fileURLToPath} from 'url';
+import UpdateData from '../Helpers/GenericDTO.js';
+const __filename = fileURLToPath(import.meta.url) 
+
+class {{Title name}} extends Model { }
+
+{{Title name}}.Get{{Title name}}s = async function () {
+
+    try {
+        var checkExists = await redisClient.exists('{{Title name}}s')
+        if (checkExists == 0) {
+            await UpdateData({{Title name}},'{{Title name}}s')
+        }
+
+        let {{name}}s = await redisClient.SMEMBERS('{{Title name}}s', 0, -1);
+        {{name}}s.forEach((r, index) => {
+            {{name}}s[index] = JSON.parse(r)
+        })
+
+        return {{name}}s
+    } catch (err) {
+        if (err instanceof Exception) throw err
+        throw new Exception(err, __filename, {{Title name}}.Get{{Title name}}s.name)
+    }
+}
+
+{{Title name}}.Add{{Title name}} = async function () {
+    try {
+        
+ 
+    } catch (err) {
+        if (err instanceof Exception) throw err
+        throw new Exception(err, __filename, {{Title name}}.Add{{Title name}}.name)
+    }
+}
+
+
+export default {{Title name}}
