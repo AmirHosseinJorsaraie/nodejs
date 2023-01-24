@@ -20,7 +20,7 @@ Post.init({
     }
 }, { sequelize, modelName: 'Post' })
 
-
+//Insert Relationships Here
 
     ; (async () => {
         await sequelize.sync()

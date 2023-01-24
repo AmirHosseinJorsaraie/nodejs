@@ -113,6 +113,8 @@ RegisterToken.belongsTo(User)
 Permision.belongsToMany(Role, { through: RolePermision })
 Role.belongsToMany(Permision, { through: RolePermision })
 
+//Insert Relationships Here
+
 
     ; (async () => {
         await sequelize.sync()

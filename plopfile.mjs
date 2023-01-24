@@ -63,6 +63,31 @@ export default function (plop) {
 				default: ['IpRateLimit', 'authenticateToken', 'CheckRoles']
 			},
 			{
+				type: 'recursive',
+				name: 'Relationships',
+				message: 'would you like to define any relationship for this modle?',
+				prompts: [
+					{
+						type: 'rawlist',
+						message: 'with wich model?',
+						name: 'model',
+						choices: ['User', 'RegisterToken', 'Permision', 'Post', 'Role']
+					},
+					{
+						type: 'rawlist',
+						message: 'chose your relation type:',
+						name: 'relationType',
+						choices: ['OneToOne', 'OneToMany', 'ManyToMany']
+					},
+					{
+						when(context) { return context.Relationships.relationType == 'ManyToMany' },
+						type: 'input',
+						message: 'through?(your junction table) :',
+						name: 'junction'
+					}
+				]
+			},
+			{
 				type: 'input',
 				name: 'Id',
 				message: 'name your id:'
@@ -90,7 +115,7 @@ export default function (plop) {
 						default: 1
 					},
 					{
-						when(context) { return context.entities.type == 'INTEGER'},
+						when(context) { return context.entities.type == 'INTEGER' },
 						type: 'confirm',
 						name: 'IsAutoIncrement',
 						message: 'AutoIncrement?'
@@ -141,8 +166,19 @@ export default function (plop) {
 							path: 'Helpers/DbConfigModels_Auth.js',
 							templateFile: 'plop-templates/modify.dbconfig.template.hbs',
 							pattern: /(\/\/Import here)/g
-						}
+						},
 					);
+
+					if (data.Relationships) {
+						actions.push(
+							{
+								type: 'modify',
+								path: 'Helpers/DbConfigModels_Auth.js',
+								templateFile: 'plop-templates/modify.relationship.template.hbs',
+								pattern: /(\/\/Insert Relationships Here)/g 
+							}
+						)
+					}
 				}
 				else if (data.server == 'Main Server') {
 					actions.push(
@@ -178,8 +214,25 @@ export default function (plop) {
 							path: 'Helpers/DbConfigModels_Main.js',
 							templateFile: 'plop-templates/modify.dbconfig.template.hbs',
 							pattern: /(\/\/Import here)/g
+						},
+						{
+							type: 'modify',
+							path: 'Helpers/DbConfigModels_Main.js',
+							template: 'plop-templates/modify.dbconfig.template.hbs',
+							pattern: /(\/\/Import here)/g
 						}
 					);
+
+					if (data.Relationships) {
+						actions.push(
+							{
+								type: 'modify',
+								path: 'Helpers/DbConfigModels_Auth.js',
+								templateFile: 'plop-templates/modify.relationship.template.hbs',
+								pattern: /(\/\/Insert Relationships Here)/g 
+							}
+						)
+					}
 				}
 			}
 			else {
@@ -205,8 +258,8 @@ export default function (plop) {
 	plop.setHelper("Const", (str) => {
 		return str.toUpperCase()
 	})
-	
-	plop.setHelper("ifEquals", function(arg1, arg2, options) {
+
+	plop.setHelper("ifEquals", function (arg1, arg2, options) {
 		return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 	})
 }
