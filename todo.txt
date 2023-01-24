@@ -21,3 +21,4 @@
 21- Generic DTO /done
 
 - fix Error: TypeError: Cannot convert undefined or null to object. (C:\Users\Asus\Documents\GitHub\nodejs\Models\Post.js)() /done
+https://github.com/ldiebold/plop-mess/blob/master/newModelPrompts.js
