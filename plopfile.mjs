@@ -80,7 +80,7 @@ export default function (plop) {
 						choices: ['OneToOne', 'OneToMany', 'ManyToMany']
 					},
 					{
-						when(context) { return context.Relationships.relationType == 'ManyToMany' },
+						when(context) { return ['ManyToMany'].includes(context.Relationships) },
 						type: 'input',
 						message: 'through?(your junction table) :',
 						name: 'junction'
