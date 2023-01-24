@@ -1,0 +1,22 @@
+import {{Title name}} from '../Models/{{Title name}}.js'
+//Import here
+
+{{Title name}}.init({
+    {{Id}}: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: {{IsIdAutoIncrement}}
+    },
+    {{#each entities}}
+     {{this.fieldName}}: {
+        type: DataTypes.{{this.type}},
+        allowNull: {{this.IsAllowNull}},
+        {{#ifEquals this.type 'INTEGER'}}
+        autoIncrement: {{this.IsAutoIncrement}}
+        {{/ifEquals}}
+    },
+    {{/each}}
+}, { sequelize, modelName: '{{Title name}}' })
+
+

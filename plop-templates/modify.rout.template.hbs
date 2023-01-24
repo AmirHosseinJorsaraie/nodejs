@@ -1,0 +1,15 @@
+const ADD_{{Const name}} = Object.freeze({
+    route: '/{{Title name}}',
+    middlewares: [{{#each middlewars}}{{this}},{{/each}}],
+    router: {{name}}_add
+})
+ROUT_LIST.push(ADD_{{Const name}})
+
+const DELETE_{{Const name}} = Object.freeze({
+    route: '/{{Title name}}',
+    middlewares: [{{#each middlewars}}{{this}},{{/each}}],
+    router: {{name}}_delete
+})
+ROUT_LIST.push(DELETE_{{Const name}})
+
+//Create rout

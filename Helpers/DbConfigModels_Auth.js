@@ -6,7 +6,7 @@ import RegisterToken from '../Models/RegisterToken.js'
 import UserRole from '../Models/UserRole.js'
 import RolePermision from '../Models/RolePermision.js'
 import configuration from '../Constants/AuthServer/default-data.js'
-
+//Import here
 
 User.init({
     id: {

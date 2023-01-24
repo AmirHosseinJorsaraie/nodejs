@@ -1,7 +1,7 @@
 import { sequelize, DataTypes } from './DatabaseConnection.js'
 import Post from "../Models/Post.js";
 import { POST_LIST } from '../Constants/Server/default-data.js';
-
+//Import here
 
 Post.init({
     id: {

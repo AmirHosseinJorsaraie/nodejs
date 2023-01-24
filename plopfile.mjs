@@ -29,14 +29,15 @@ export default function (plop) {
 
 		],
 		actions: [{
-			type: 'add',
-			path: 'Middlewares/{{Title name}}.js',
-			templateFile: 'plop-templates/middleware.template.hbs'
+			type: 'modify',
+			path: 'Middlewares/CheckValidation.js',
+			pattern: /(\/\/Import here)/g,
+			template: '{{name}} \n //import here'
 		}]
 	})
 
 	plop.setGenerator('model', {
-		description: 'define models and routs',
+		description: 'Define an entity',
 		prompts: [
 			{
 				type: 'input',
@@ -77,17 +78,6 @@ export default function (plop) {
 				name: 'entities',
 				prompts: [
 					{
-						type: 'confirm',
-						name: 'IsAutoIncrement',
-						message: 'AutoIncrement?'
-
-					},
-					{
-						type: 'confirm',
-						name: 'IsAllowNull',
-						message: 'Allow null?'
-					},
-					{
 						type: 'input',
 						name: 'fieldName',
 						message: 'Field name:'
@@ -98,6 +88,17 @@ export default function (plop) {
 						message: 'Field type:',
 						choices: ['INTEGER', 'STRING', 'ENUM'],
 						default: 1
+					},
+					{
+						when(context) { return context.entities.type == 'INTEGER'},
+						type: 'confirm',
+						name: 'IsAutoIncrement',
+						message: 'AutoIncrement?'
+					},
+					{
+						type: 'confirm',
+						name: 'IsAllowNull',
+						message: 'Allow null?'
 					}
 				]
 			}
@@ -106,7 +107,7 @@ export default function (plop) {
 			var actions = []
 
 			if (data.InDatabase) {
-				if (data.server) {
+				if (data.server == 'Auth Server') {
 					actions.push(
 						{
 							type: 'add',
@@ -122,10 +123,28 @@ export default function (plop) {
 							type: 'add',
 							path: 'Routs/AuthServer/{{Title name}}/delete.js',
 							templateFile: 'plop-templates/route.template.hbs'
+						},
+						{
+							type: 'modify',
+							path: 'Constants/AuthServer/routs.js',
+							template: 'import {{name}}_add "../../Routs/AuthServer/{{Title name}}/add.js" \n import {{name}}_delete from "../../Routs/AuthServer/{{Title name}}/delete.js" \n //Import rout',
+							pattern: /(\/\/Import rout)/g
+						},
+						{
+							type: 'modify',
+							path: 'Constants/AuthServer/routs.js',
+							templateFile: 'plop-templates/modify.rout.template.hbs',
+							pattern: /(\/\/Create rout)/g
+						},
+						{
+							type: 'modify',
+							path: 'Helpers/DbConfigModels_Auth.js',
+							templateFile: 'plop-templates/modify.dbconfig.template.hbs',
+							pattern: /(\/\/Import here)/g
 						}
 					);
 				}
-				else {
+				else if (data.server == 'Main Server') {
 					actions.push(
 						{
 							type: 'add',
@@ -141,6 +160,24 @@ export default function (plop) {
 							type: 'add',
 							path: 'Routs/Server/{{Title name}}/delete.js',
 							templateFile: 'plop-templates/route.template.hbs'
+						},
+						{
+							type: 'modify',
+							path: 'Constants/Server/routs.js',
+							template: 'import {{name}}_add "../../Routs/Server/{{Title name}}/add.js" \n import {{name}}_delete from "../../Routs/Server/{{Title name}}/delete.js" \n //Import rout',
+							pattern: /(\/\/Import rout)/g
+						},
+						{
+							type: 'modify',
+							path: 'Constants/Server/routs.js',
+							templateFile: 'plop-templates/modify.rout.template.hbs',
+							pattern: /(\/\/Create rout)/g
+						},
+						{
+							type: 'modify',
+							path: 'Helpers/DbConfigModels_Main.js',
+							templateFile: 'plop-templates/modify.dbconfig.template.hbs',
+							pattern: /(\/\/Import here)/g
 						}
 					);
 				}
@@ -161,9 +198,15 @@ export default function (plop) {
 
 	plop.setHelper("Title", (str) => {
 		return str.replace(/\w\S*/g, function (txt) {
-			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 		});
 	});
 
-	plop.setHelper("")
+	plop.setHelper("Const", (str) => {
+		return str.toUpperCase()
+	})
+	
+	plop.setHelper("ifEquals", function(arg1, arg2, options) {
+		return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+	})
 }
