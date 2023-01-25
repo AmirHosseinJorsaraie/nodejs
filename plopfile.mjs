@@ -200,7 +200,7 @@ export default function (plop) {
 						{
 							type: 'modify',
 							path: 'Constants/Server/routs.js',
-							template: 'import {{name}}_add from "../../Routs/Server/{{Title name}}/add.js" \n import {{name}}_delete from "../../Routs/Server/{{Title name}}/delete.js" \n //Import rout',
+							template: 'import {{name}}_add from "../../Routs/Server/{{Title name}}/add.js" \nimport {{name}}_delete from "../../Routs/Server/{{Title name}}/delete.js" \n //Import rout',
 							pattern: /(\/\/Import rout)/g
 						},
 						{
