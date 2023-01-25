@@ -63,31 +63,6 @@ export default function (plop) {
 				default: ['IpRateLimit', 'authenticateToken', 'CheckRoles']
 			},
 			{
-				type: 'recursive',
-				name: 'Relationships',
-				message: 'would you like to define any relationship for this modle?',
-				prompts: [
-					{
-						type: 'rawlist',
-						message: 'with wich model?',
-						name: 'model',
-						choices: ['User', 'RegisterToken', 'Permision', 'Post', 'Role']
-					},
-					{
-						type: 'rawlist',
-						message: 'chose your relation type:',
-						name: 'relationType',
-						choices: ['OneToOne', 'OneToMany', 'ManyToMany']
-					},
-					{
-						when(context) { return ['ManyToMany'].includes(context.Relationships) },
-						type: 'input',
-						message: 'through?(your junction table) :',
-						name: 'junction'
-					}
-				]
-			},
-			{
 				type: 'input',
 				name: 'Id',
 				message: 'name your id:'
@@ -112,10 +87,10 @@ export default function (plop) {
 						name: 'type',
 						message: 'Field type:',
 						choices: ['INTEGER', 'STRING', 'ENUM'],
-						default: 1
+						default: 2
 					},
 					{
-						when(context) { return context.entities.type == 'INTEGER' },
+						when(context) { return context.type == 'INTEGER' },
 						type: 'confirm',
 						name: 'IsAutoIncrement',
 						message: 'AutoIncrement?'
@@ -124,6 +99,31 @@ export default function (plop) {
 						type: 'confirm',
 						name: 'IsAllowNull',
 						message: 'Allow null?'
+					}
+				]
+			},
+			{
+				type: 'recursive',
+				name: 'Relationships',
+				message: 'would you like to define any relationship for this modle?',
+				prompts: [
+					{
+						type: 'rawlist',
+						message: 'with wich model?',
+						name: 'model',
+						choices: ['User', 'RegisterToken', 'Permision', 'Post', 'Role']
+					},
+					{
+						type: 'rawlist',
+						message: 'chose your relation type:',
+						name: 'relationType',
+						choices: ['OneToOne', 'OneToMany', 'ManyToMany']
+					},
+					{
+						when(context) { return context.relationType == 'ManyToMany' },
+						type: 'input',
+						message: 'through?(your junction table):',
+						name: 'junction'
 					}
 				]
 			}
@@ -152,7 +152,7 @@ export default function (plop) {
 						{
 							type: 'modify',
 							path: 'Constants/AuthServer/routs.js',
-							template: 'import {{name}}_add "../../Routs/AuthServer/{{Title name}}/add.js" \n import {{name}}_delete from "../../Routs/AuthServer/{{Title name}}/delete.js" \n //Import rout',
+							template: 'import {{name}}_add from "../../Routs/AuthServer/{{Title name}}/add.js" \n import {{name}}_delete from "../../Routs/AuthServer/{{Title name}}/delete.js" \n //Import rout',
 							pattern: /(\/\/Import rout)/g
 						},
 						{
@@ -200,7 +200,7 @@ export default function (plop) {
 						{
 							type: 'modify',
 							path: 'Constants/Server/routs.js',
-							template: 'import {{name}}_add "../../Routs/Server/{{Title name}}/add.js" \n import {{name}}_delete from "../../Routs/Server/{{Title name}}/delete.js" \n //Import rout',
+							template: 'import {{name}}_add from "../../Routs/Server/{{Title name}}/add.js" \n import {{name}}_delete from "../../Routs/Server/{{Title name}}/delete.js" \n //Import rout',
 							pattern: /(\/\/Import rout)/g
 						},
 						{

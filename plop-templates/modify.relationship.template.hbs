@@ -1,17 +1,17 @@
 {{#each Relationships}}
 
 {{#ifEquals this.relationType 'OneToOne'}}
-    {{Title name}}.hasOne({{this.model}})
+{{Title name}}.hasOne({{this.model}})
 {{/ifEquals}}
 
 {{#ifEquals this.relationType 'OneToMany'}}
-    {{Title name}}.hasMany({{this.model}})
-    {{this.model}}.belongsTo({{Title name}}) 
+{{Title name}}.hasMany({{this.model}})
+{{this.model}}.belongsTo({{Title name}}) 
 {{/ifEquals}}
 
 {{#ifEquals this.relationType 'ManyToMany'}}
-    {{Title name}}.belongsToMany({{this.model}}, { through: {{this.junction}} })
-    {{this.model}}.belongsToMany({{Title name}}, { through: {{this.junction}} })
+{{Title ../name}}.belongsToMany({{this.model}}, { through: {{this.junction}} })
+{{this.model}}.belongsToMany({{Title ../name}}, { through: {{this.junction}} })
 {{/ifEquals}}
 
 {{/each}}
